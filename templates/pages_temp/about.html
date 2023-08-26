@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+|| About Us
+{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row my-2">
+      <p>
+        {% comment %} <h5 style="text-align:center;color:rgb(13, 13, 118)">About us</h5> {% endcomment %}
+        <h1 class="text-muted" style="text-align:center;font-family:'Times New Roman', Times, serif">We are all over the world!</h1>
+        <h6  style="text-align:center;color:rgb(13, 13, 118)">We have offices and teams all around the world</h6></p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+    <div class="col-sm-9">
+        <img src={% static 'images/World1.jpg' %} alt="" style="width:100%;height:100%;mix-blend-mode:hard-light;">
+    </div>
+    <div class="col-sm-3 shadow-lg">
+        <div class="row py-3 mb-3">
+            <h3  style="text-align:center;font-family:'Times New Roman', Times, serif">Support</h3>
+            <small class="text-muted" style="text-align:center;">Our friendly team is here to help you</small>
+            <a href = "mailto: dharmarajjena694@gmail.com" style="text-align:center; color:rgb(9, 7, 94)" class="text-decoration-none">dharmarajjena694@gmail.com</a>
+        </div>
+        
+        <div class="row py-3 mb-3">
+            <h3 style="text-align:center;font-family:'Times New Roman', Times, serif">Sales</h3>
+            <small class="text-muted" style="text-align:center;">Questions or queries ? Get in touch!</small>
+            <a href = "mailto: irath954@gmail.com" style="text-align:center; color:rgb(9, 7, 94)" class="text-decoration-none">irath954@gmail.com</a>
+        </div>
+
+
+        <div class="row py-3 mb-3">
+            <h3 style="text-align:center;font-family:'Times New Roman', Times, serif">Phone</h3>
+            <small class="text-muted" style="text-align:center;">Mon-Fri from 8a.m. to 5p.m.</small>
+            <a href = "tel: +91 7325817086" style="text-align:center; color:rgb(9, 7, 94)" class="text-decoration-none">+91 7325817086</a>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<div class="container my-5" style= "box-shadow: rgb(43, 58, 74) 0px 20px 30px -10px; background-color:rgb(8, 8, 130);">
+
+    <div class="row mx-4 py-5">
+        <div class="col-sm-4">
+            <small style="color:rgb(203, 195, 195)">Our locations</small>
+            <h3 class="text-white">Visit our offices</h3>
+            <h6 style="color:rgb(203, 195, 195)">Find us at these locations.</h6>
+        </div>
+        <div class="col-sm-4">
+            <h4 class="text-white"> Mumbai</h4>
+            <small style="color:rgb(203, 195, 195)">100 Finders Street , Agrapada</small>
+            
+            <h4 class="text-white my-3">Bhubaneswar</h4>
+            <small style="color:rgb(203, 195, 195)">Infocity DLF , Chandaka</small>
+          
+
+            <h4 class="text-white my-3">Dehradun</h4>
+            <small style="color:rgb(203, 195, 195)">Thapa Building , Paltan Bazaar</small>
+        </div>
+        <div class="col-sm-4">
+            <h4 class="text-white">Noida</h4>
+            <small style="color:rgb(203, 195, 195)">Supernova Spira , Amrapalli Marg</small>
+            
+            <h4 class="text-white my-3">Chennai</h4>
+            <small style="color:rgb(203, 195, 195)">Ashok nagar , Guindy</small>
+
+            <h4 class="text-white my-3">Bangalore</h4>
+            <small style="color:rgb(203, 195, 195)">Assetz Marq , Whitefield</small>
+        </div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <h5 style="text-align:center;color:rgb(13, 13, 118);">Contact Us</h5>
+        <h1 class="text-muted" style="text-align:center; font-family:'Times New Roman', Times, serif">Get in touch</h1>
+        <h5 style="text-align:center;color:rgb(13, 13, 118);">We would love to hear from you.Please fill out this form.</h5>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 my-4 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-1">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-1">
+                            <label for="mobile">Mobile</label>
+                            <input type="tel" class="form-control" id="mobile" minlength="10" maxlength="10" pattern="[6-9][0-9]{9}" required>
+                            
+                        </div>
+                        <div class="mb-1">
+                            <label for="email">E-mail</label>
+                            <input type="email" class="form-control" id="email" required>                       
+                        </div>
+                        <div class="mb-1">
+                            <label for="country">Country</label>
+                            <select id ="country" class="form-control" required>
+                                <option value="">Select</option>
+                                <option value="India">India</option>
+                                <option value="Other">Other</option>
+                            </select>
+                      
+                        </div>
+                        <div class="mb-1">
+                            <label for="message">Message</label><br>
+                            <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-1">
+                            <input type="checkbox" class="form-check-input" id="term" required>
+                            <label for="agree to term & conditions"></label>Agree to term & conditions</label>
+                            
+                        </div>
+                        <div class="mb-1">
+                            <button type="submit" value="submit" class="btn btn-primary w-100 my-1">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

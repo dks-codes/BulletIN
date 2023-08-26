@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+|| Search Results
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    {% if search %}
+        {% if news %}
+            {% for new in news  %}
+
+            <div class="row">
+                <div class="col-md-6 my-3 mx-auto">
+          
+                  <div class="card" style="width: 50">
+                    <div class="row g-0">
+                      <div class="col-md-5">
+                        <img src="{{new.cover_photo.url}}" class="img-fluid rounded-start" alt="{{new.cover_text}}" style="object-fit: cover">
+                      </div>
+                      <div class="col-md-7">
+                        <div class="card-body">
+                          <h5 class="card-title d-flex justify-content-end">{{new.headline}}</h5>
+                          {% comment %} <p class="card-text">{{new.cover_text}}</p> {% endcomment %}
+                          <a href="{% url 'news_details' new.id %}" class="btn btn-primary">Read More</a>
+        
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>        
+            {% endfor %}
+        {% else %}
+        <h3 class="text-center m-5">No Results Found for "{{search}}"</h3>
+        {% endif %}
+    {% else %}
+    <h3 class="text-center m-5">Please Enter Something to search</h3>
+    {% endif %}
+</div>
+{% endblock content %}
+

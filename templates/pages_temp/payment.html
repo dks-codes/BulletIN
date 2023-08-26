@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Payment
+{% endblock title %}
+
+
+{% block content %}
+<div class="container ">
+    <div class="row my-5 ">
+        {% if plans %}
+                    {% for p in plans %}
+        <div class="col-md-6 px-5 ">
+                    
+                        <div class="card rounded-1 pack" style="width: 18rem;">
+                            <div class="card-body">
+                                <div class="card-title rounded-2" style="background-image: linear-gradient(to right, #8360c3, #2690a8); padding-left:13px; padding-bottom:30px; padding-top:10px;">
+                              <h4 style="font-family: fantasy;">{{p.plan}}</h4>
+                                <p class="fw-bold fs-6 text-muted"><span class="me-1"><i class="fa-solid fa-indian-rupee-sign text-muted fs-6"></i></span>{{p.price}}/mon.</p>
+                            </div>
+                        </div>
+                            <ul>
+                              
+                              <li class="my-2" style="list-style:none;">{% if p.softcopy == True %}<i class="fa-solid fa-circle-check me-1" style="color: #17ac0c;"></i>Softcopy</li>{%else%}<i class="fa-solid fa-circle-xmark me-1" style="color: #da102f;"></i>Softcopy{% endif %}
+                              <li class="my-2" style="list-style:none;">{% if p.extra_features == True %}<i class="fa-solid fa-circle-check me-1" style="color: #17ac0c;"></i>Extra Features</li>{%else%}<i class="fa-solid fa-circle-xmark me-1" style="color: #da102f;"></i>Extra Features{% endif %}
+                              <li class="my-2" style="list-style:none;">{% if p.weekly_magazine == True %}<i class="fa-solid fa-circle-check me-1" style="color: #17ac0c;"></i>Weekly Magazine</li>{%else%}<i class="fa-solid fa-circle-xmark me-1" style="color: #da102f;"></i>Weekly Magazine{% endif %}
+                            </ul>
+                            <div class="card-body">
+                                <p class="text-lowercase"> You have choosen {{p.plan}} plan</p>    
+                            </div>
+                          </div>
+                   
+            
+
+        </div>
+
+        <div class="col-md-6 px-5" >
+            <form class="form" method="POST" action="{% url 'buy_plan' %}" style="width: 26rem;">
+                {% csrf_token %}
+                <div class="title">Welcome</div>
+                <div class="subtitle">Choose a payment mode!</div>
+                <input type="text" name="plans" value="{{p.id}}" hidden>
+                <input type="number" name="price" value="{{p.price}}" hidden>
+                <label for="" class="d-block p-2 mb-2 my-2">
+                    <input type="radio" name="payment_mode" value="UPI" required><span style="color:white"> UPI</span> 
+                </label>
+                <label for="" class="d-block p-2 mb-2 my-2">
+                    <input type="radio" name="payment_mode" value="Net Banking" required><span style="color:white"> Net Banking</span> 
+                </label>
+                <label for="" class="d-block p-2 mb-2 my-2">
+                    <input type="radio" name="payment_mode" value="Debit Card" required><span style="color:white"> Debit Card</span> 
+                </label>
+                <input type="submit"  class="btn btn-outline-warning form-control" value="Pay">
+            </form>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

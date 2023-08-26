@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-lg" style="background-color: rgb(224, 8, 8);">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand text-decoration-none fs-1 ms-1">NEWS</a>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav mx-auto">
+            {% for c in categories  %}
+            
+            <a class="nav-link active me-4 text-white link-offset-3 link-underline-opacity-0 link-underline-opacity-100-hover" 
+            aria-current="page" 
+            href="{% url 'news_category' c.id %}">
+            {{c.category}}</a>
+
+           {% comment %} <div class="vr"></div> {% endcomment %}
+            {% comment %} {% if i < count_cat %}
+              <div class="">{{i}}</div>
+              {{i=i+1}}
+            {% endif %} {% endcomment %}
+             
+
+            {% endfor %}
+            
+          </div>
+        </div>
+    </div>
+  </nav>

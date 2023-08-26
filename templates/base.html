@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BulletIN {% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>{% block internalcss %}{% endblock internalcss %}</style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+       
+      <a class="navbar-brand text-decoration-none">
+        <h1>BulletIN</h1>
+      </a>
+
+      {% comment %} <form class="d-flex" role="search" method="POST" action="{% url 'search' %}" style="margin-left:30%;">
+        {% csrf_token %}
+        <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-dark" type="submit">Search</button>
+      </form> {% endcomment %}
+      
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <form class="d-flex search" role="search" method="POST" action="{% url 'search' %}">
+          {% csrf_token %}
+          <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-dark" type="submit">Search</button>
+        </form>
+        <div class="navbar-nav ms-auto link-offset-3">
+            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">Home</a>
+          
+            <a class="nav-link active" aria-current="page" href="{% url 'aboutus' %}">About</a>
+
+            <a class="nav-link active" aria-current="page" href="{% url 'all_news' %}">News</a>
+
+            <a class="nav-link active" aria-current="page" href="{% url 'subscribe' %}">Subscribe</a>
+        
+          {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              My Account
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'signout' %}">Sign Out</a></li>
+            </ul>
+          </li>
+            {% comment %} <a class="nav-link active" aria-current="page" href="{% url 'signout' %}">Sign Out</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'profile' %}">Profile</a> {% endcomment %}
+          {% else %}
+            <a class="nav-link active" aria-current="page" href="{% url 'sign_up' %}">Sign Up</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'signin' %}">Sign In</a>
+          {% endif %}
+
+          
+          
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+    {% block content %}{% endblock content%}
+
+    <footer class="my-5 bg-dark" style="color:white; box-shadow: rgba(54, 52, 52, 0.2) 0px 20px 30px;">
+      <div class="container">
+        <div class="row py-5 ms-1">
+          <div class="col-md-4" style="font-family:Georgia, 'Times New Roman', Times, serif ; padding-top:30px;">
+            <h1>TheBharat</h1>
+            <p class="fs-6">#1 News agency worldwide</p>
+          </div>
+          <div class="col-md-4">
+            <h3 style="font-weight:400;font-family:Georgia, 'Times New Roman', Times, serif" class="my-3">Services</h3>
+            <div style="font-family:Georgia, 'Times New Roman', Times, serif" class="mb-1">Daily News Available</div>
+            <div style="font-family:Georgia, 'Times New Roman', Times, serif" class="mb-1">Buy Plans</div>
+            <div style="font-family:Georgia, 'Times New Roman', Times, serif" class="mb-1">Avail Monthly Magazine</div>
+          </div>
+          <div class="col-md-4">
+            <h3 style="font-weight:400;font-family:Georgia, 'Times New Roman', Times, serif" class="my-3">Contacts</h3>
+            <a href = "tel: +91 9178999486" style="color:white" class="text-decoration-none">+91 9178999486</a> 
+            <div>India , Odisha , 751019</div>
+            <h3 style="font-weight:400;font-family:Georgia, 'Times New Roman', Times, serif" class="my-3">Email</h3>
+            <a href = "mailto: deepakkumarsahoo@gmail.com" style="color:white" class="text-decoration-none">deepakkumarsahoo@gmail.com</a>
+          </div>
+        </div>
+      </div> 
+      <hr>
+      <div class="row py-2 ms-1">
+        <div class="col-md-10">
+          <p class="fs-5" style="font-family:Georgia, 'Times New Roman', Times, serif">&copy; 2023 TheBharat</p>
+          <div class="fs-6 ms-1 mb-1" style="font-family:Georgia, 'Times New Roman', Times, serif">All rights reserved</div>
+        </div>
+        <div class="col-md-2">
+          <div>
+            <h4 style="font-family:Georgia, 'Times New Roman', Times, serif">Follow us</h4>
+          </div>
+          <i class="fa-brands fa-instagram ms-1" style="color: #f2f2f2;"></i>
+          <i class="fa-brands fa-twitter ms-1" style="color: #f1f2f4;"></i>
+          <i class="fa-brands fa-facebook ms-1" style="color: #e6e8ea;"></i>
+        </div>
+      </div>
+    </footer>
+
+    <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
+    {% block extrajs %}{% endblock extrajs %}
+</body>
+</html>

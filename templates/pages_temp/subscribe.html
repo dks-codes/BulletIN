@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block title %}
+|| Subscribe
+{% endblock title %}
+
+{% block internalcss %}
+.multicolor-text {
+  background: linear-gradient(to left,
+          rgb(107, 30, 107),
+          rgb(77, 46, 100),
+          rgb(70, 70, 198) );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.pack{
+margin-bottom:50px;
+box-shadow: 0 1rem 2rem rgba(0, 0, 0, 20%);
+}
+.pack:hover{
+transformation-origin:bottom;
+transform:scale(1.1);
+transition:transform 0.6s ease;
+}
+
+
+{% endblock internalcss %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row my-3 text-center multicolor-text">
+        <h3 class="fs-1 pt-3">Choose the plan that's right for YOU!</h3>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+          <ul style="list-style: none;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+              <li class="fs-4"><span class="me-2"><i class="fa-solid fa-check" style="color: #c21414;"></i></span>Watch all you want. Advert-free</li>
+              <li class="fs-4"><span class="me-2"><i class="fa-solid fa-check" style="color: #c21414;"></i></span>Recommendations just for you</li>
+              <li class="fs-4"><span class="me-2"><i class="fa-solid fa-check" style="color: #c21414;"></i></span>Change or cancel your plans at any time!</li>
+          </ul>
+      </div>
+    </div>
+</div>
+
+<!-- Plans -->
+
+<div class="container">
+    <div class="row my-5 d-flex justify-content-around">
+      {% if plans %}
+        {% for plan in plans  %}
+        <div class="col-md-4 px-5">
+            <div class="card rounded-4 pack ">
+                <div class="card-body">
+                    <div class="card-title rounded-2" style="background-image: linear-gradient(to right, #8360c3, #2690a8); padding-left:13px; padding-bottom:30px; padding-top:10px;">
+                      <h4 style="font-family: fantasy;">{{plan.plan_name}}</h4>
+                      <p class="fw-bold fs-6 text-muted"><span class="me-1"><i class="fa-solid fa-indian-rupee-sign text-muted fs-6"></i></span>{{plan.price}}/mon.</p>
+                    </div>
+                </div>
+                
+                <ul>
+                  {% if features %}
+                    {% for feature in features %}                     
+                        <li class="my-2" style="list-style:none;">
+                          {% if feature in plan.feature.all%}
+                          <i class="fa-solid fa-circle-check me-1" style="color: #00ff00;"></i>
+                          {% else %}
+                          <i class="fa-solid fa-circle-xmark me-1" style="color: #ff0000;"></i>
+                          {% endif %}
+                          {{feature}}
+                        </li>
+                    {% endfor %}
+                    {% else %}
+                      <p class="lead">No features available</p>
+                  {% endif %}
+                </ul>              
+                <div class="card-body">
+                  {% if user.is_authenticated %}
+                  <form action="{% url 'payment' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="plan_id" value="{{plan.id}}">
+                    <input type="submit" value="Buy" class="btn btn-outline-primary w-100">
+                  </form>
+                  {% else %}
+                    <a href="{% url 'signin' %}" class="btn btn-outline-primary w-100">Buy</a>
+                  {% endif %}
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="fs-2 lead text-center">No Plans Available</div>
+      {% endif %}
+    </div>
+</div>
+
+<div class="container">
+  <div class="row my-3 text-center">
+    <h3>Don't Like Reading News Online? <span class="fs-2 multicolor-text"> Buy our offline Newspaper! </span></h3>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row my-5 d-flex justify-content-around">
+      <div class="col-md-4">
+          <div class="card rounded-4 pack mx-5">
+              <div class="card-body">
+                  <div class="card-title rounded-2" style="background-image: linear-gradient(to right, #8360c3, #2690a8); padding-left:13px; padding-bottom:30px; padding-top:10px;">
+                <h4 style="font-family: fantasy;">Monthly</h4>
+                  <p class="fw-bold fs-6 text-muted"><span class="me-1"><i class="fa-solid fa-indian-rupee-sign text-muted fs-6"></i></span>70.0/mon.</p>
+                  </div>
+              </div>
+              <ul>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Soft copy of TheBharat</li>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Watch on your TV, computer, mobile phone and tablet</li>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Download available</li>
+              </ul>
+              <div class="card-body">
+                <input type="submit" value="Buy" class="btn btn-outline-primary w-100">
+              </div>
+            </div>
+      </div>
+
+
+      <div class="col-md-4">
+          <div class="card rounded-4 pack mx-5">
+              <div class="card-body">
+                  <div class="card-title rounded-2" style="background-image: linear-gradient(to right, #8360c3, #2690a8); padding-left:13px; padding-bottom:30px; padding-top:10px;">
+                <h4 style="font-family: fantasy;">Semi-Annually</h4>
+                  <p class="fw-bold fs-6 text-muted"><span class="me-1"><i class="fa-solid fa-indian-rupee-sign text-muted fs-6"></i></span>70.0/mon.</p>
+                  </div>
+              </div>
+              <ul>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Soft copy of TheBharat</li>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Watch on your TV, computer, mobile phone and tablet</li>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Download available</li>
+              </ul>
+              <div class="card-body">
+                <input type="submit" value="Buy" class="btn btn-outline-primary w-100">
+              </div>
+            </div>
+      </div>
+
+      <div class="col-md-4">
+          <div class="card rounded-4 pack mx-5">
+              <div class="card-body">
+                  <div class="card-title rounded-2" style="background-image: linear-gradient(to right, #8360c3, #2690a8); padding-left:13px; padding-bottom:30px; padding-top:10px;">
+                <h4 style="font-family: fantasy;">Annually</h4>
+                  <p class="fw-bold fs-6 text-muted"><span class="me-1"><i class="fa-solid fa-indian-rupee-sign text-muted fs-6"></i></span>70.0/mon.</p>
+              </div>
+          </div>
+              <ul>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Soft copy of TheBharat</li>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Watch on your TV, computer, mobile phone and tablet</li>
+                <li class="my-2" style="list-style:none;"><i class="fa-solid fa-chevron-right me-1" style="color: #87599b;"></i>Download available</li>
+              </ul>
+              <div class="card-body">
+                <input type="submit" value="Buy" class="btn btn-outline-primary w-100">
+              </div>
+            </div>
+      </div>
+     
+
+  </div>
+</div>
+
+{% endblock content %}

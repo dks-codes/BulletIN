@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    || Category
+{% endblock title %}
+
+{% block internalcss %}
+  a:link{
+    text-decoration: none;
+  }
+  a:hover{
+    color: black;
+    text-decoration: underline;
+  }
+{% endblock internalcss %}
+
+
+{% block content %}
+
+{% include 'news_navbar.html' %}
+
+<div class="container">
+  <div class="row py-3">
+    {% if each_category %}
+      {% for c in each_category   %}
+        <h3>{{c.category}}</h3>
+        <hr>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    {% comment %} {% for new in news1  %}
+    {% endfor %} {% endcomment %}
+    <div class="col-md-6">
+      {% if news1 %}
+      <a href="{% url 'news_details' news1.id %}" target="_blank">
+        <div class="card">
+          <img src="{{news1.cover_photo.url}}" class="card-img-top" alt="Image is here">
+          <div class="card-body">
+            <p class="card-text fw-semibold fs-5 headline">{{news1.headline}}</p>
+            <p class="card-text">{{news1.cover_text}}</p>
+          </div>
+        </div>
+      </a>
+      {% else %}
+      <div class="lead">No News Available</div>
+      {% endif %}
+    </div>
+
+    <div class="col-md-6">
+      <div class="row">
+        {% if news %}
+        {% for new in news %}
+          <div class="col-md-4  me-4">
+            <a href="{% url 'news_details' new.id %}">
+              <div class="card" style="width: 14rem;">
+                <img src="{{new.cover_photo.url}}" class="card-img-top" alt="News image here">
+                <div class="card-body">
+                  <p class="card-text fw-semibold headline">{{new.headline}}</p>
+                  {% comment %} <p class="card-text">{{new.cover_text}}</p> {% endcomment %}
+                </div>
+              </div>
+          </a>
+          </div>
+        {% endfor %}
+        {% else %}
+        <div class="display-5 d-flex justify-content-center m-5">No News Available</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% comment %} <div class="row py-3">
+    <div class="col-md-3">
+        <div class="card" style="width: 15rem;">
+                <img src="{{new.cover_photo.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                  <p class="card-text">{{new.cover_text}}</p>
+            </div>
+        </div>
+    </div>
+  </div> {% endcomment %}
+
+  
+</div>
+        
+        <div class="container">
+          <div class="row py-3">
+            <hr>
+            <div class="col-md-2 py-2 pb-4"><h5 class="card-title">Card title</h5></div>
+            <div class="col-md-2 py-2 pb-4"><h5 class="card-title">Card title</h5></div>
+            <div class="col-md-2 py-2 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-2 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-2 pb-4"><h5 class="card-title">Card title</h5></div>
+        <div class="col-md-2 py-2 pb-4"><h5 class="card-title">Card title</h5></div>
+        <hr>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 15rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

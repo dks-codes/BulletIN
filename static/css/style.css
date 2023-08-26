@@ -1,0 +1,48 @@
+.success{
+    color: rgb(38, 224, 38);
+}
+
+.error{
+    color: rgb(255, 0, 0);
+}
+
+/* social-share-buttons */
+.wa-color{
+    color: rgb(0, 255, 0);
+}
+.wa-color:hover{
+    color: rgba(42, 219, 25, 0.651);
+}
+.copy-clipboard{
+    display: none;
+    background-color: aliceblue;
+}
+
+/* @media screen and (max-width: 768px){
+    .search{
+        width: 30%;
+        display: flex;
+        justify-content:center;        
+    }
+} */
+
+.search{
+    margin-left: auto;
+}
+
+@media screen and (min-width: 992px) {
+    .search{       
+        margin-left:35%;
+    }
+
+    .full-sc-width{
+        width: 49%;
+        padding: 1px;
+    }
+}
+
+@media screen and (max-width: 992px){
+    .full-sc-width{
+        width: 49%;
+    }
+}
