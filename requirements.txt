@@ -1,0 +1,4 @@
+Django==4.2.3
+django-multiselectfield==0.1.12
+django-social-share==2.3.0
+django-summernote
