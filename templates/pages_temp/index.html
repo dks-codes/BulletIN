@@ -33,14 +33,14 @@
               {% if forloop.first %}
               <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="5000">
                 <img src={{new.cover_photo.url}} class="d-block w-100" alt="{{new.headline}}">
-                <div class="carousel-caption d-none d-md-block" style="background-color: #f0ffff;">
+                <div class="carousel-caption d-md-block" style="background-color: #f0ffff;">
                   <a href="{% url 'news_details' new.id %}" class="h5 link-dark link-offset-1 link-underline-opacity-0 link-underline-opacity-100-hover">{{new.headline}}</a>
                 </div>
               </div>
               {% else %}
               <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="5000">
                 <img src={{new.cover_photo.url}} class="d-block w-100" alt="{{new.headline}}">
-                <div class="carousel-caption d-none d-md-block"  style="background-color: #f0ffff;">
+                <div class="carousel-caption d-md-block"  style="background-color: #f0ffff;">
                   <a href="{% url 'news_details' new.id %}" class="h5 link-dark link-offset-1 link-underline-opacity-0 link-underline-opacity-100-hover">{{new.headline}}</a>
                 </div>
               </div>

@@ -23,9 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ba@f!afwtgtow848nnpy)&%i6r$vb=od!k$_we^z87+m%ftki)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','DKS.pythonanywhere.com']
+# ALLOWED_HOSTS = ['localhost','DKS.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -139,3 +140,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#RAZOR_PAY_GATEWAY
+RAZOR_PAY_KEY_ID = 'rzp_test_jroVuT44vnKLsF'
+KEY_SECRET = '4OThb8uFUnD4qBu9sM2NRJfU'

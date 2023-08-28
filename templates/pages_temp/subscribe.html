@@ -77,7 +77,8 @@ transition:transform 0.6s ease;
                 </ul>              
                 <div class="card-body">
                   {% if user.is_authenticated %}
-                  <form action="{% url 'payment' %}" method="post">
+                  {% comment %} <form action="{% url 'buy_now' %}" method="post"> {% endcomment %}
+                  <form action="{% url 'order_summary' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="plan_id" value="{{plan.id}}">
                     <input type="submit" value="Buy" class="btn btn-outline-primary w-100">

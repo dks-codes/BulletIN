@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Thank You
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    {% if status %}
+    <div class="row py-5 text-center">
+      <div class="col" style="font-family:Georgia, 'Times New Roman', Times, serif ; padding-top:30px;">
+        <h1>Thank You for Purchasing our Plan</h1>
+        <i class="fa-solid fa-circle-check fa-2xl me-2" style="color: #00ff00;"></i><span class="fs-3">Your payment was successfull!!</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="row py-5 text-center">
+        <div class="col" style="font-family:Georgia, 'Times New Roman', Times, serif ; padding-top:30px;">
+          <h1>Try Again!!</h1>
+          <i class="fa-solid fa-circle-xmark fa-2xl me-2" style="color: #ff0000;"></i><span class="fs-3">Your payment Failed!!</span>
+        </div>
+    </div>
+    {% endif %}
+</div> 
+{% endblock content %}
+
+
+

@@ -44,7 +44,7 @@ def signup(request):
 @never_cache
 def signin(request):
     if request.user.is_authenticated:
-        return redirect("all_news")
+        return redirect("index")
 
     if request.method == "POST":
         username = request.POST.get('username')
@@ -57,7 +57,7 @@ def signin(request):
             return render(request, 'user/signin.html')
         else:
             login(request,user)
-            return redirect("all_news")
+            return redirect("index")
         
     return render(request, 'user/signin.html')
 

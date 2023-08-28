@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Order Summary
+{% endblock title %}
+
+
+{% block content %}
+<div class="container ">
+    <div class="row my-5 ">
+        {% if plans %}
+        {% for plan in plans  %}
+        <div class="col-md-4 px-5">
+            <div class="card rounded-4 pack ">
+                <div class="card-body">
+                    <div class="card-title rounded-2" style="background-image: linear-gradient(to right, #8360c3, #2690a8); padding-left:13px; padding-bottom:30px; padding-top:10px;">
+                      <h4 style="font-family: fantasy;">{{plan.plan_name}}</h4>
+                      <p class="fw-bold fs-6 text-muted"><span class="me-1"><i class="fa-solid fa-indian-rupee-sign text-muted fs-6"></i></span>{{plan.price}}/mon.</p>
+                    </div>
+                </div>
+                
+                <ul>
+                  {% if features %}
+                    {% for feature in features %}                     
+                        <li class="my-2" style="list-style:none;">
+                          {% if feature in plan.feature.all%}
+                          <i class="fa-solid fa-circle-check me-1" style="color: #00ff00;"></i>
+                          {% else %}
+                          <i class="fa-solid fa-circle-xmark me-1" style="color: #ff0000;"></i>
+                          {% endif %}
+                          {{feature}}
+                        </li>
+                    {% endfor %}
+                    {% else %}
+                      <p class="lead">No features available</p>
+                  {% endif %}
+                </ul>                     
+                <div class="card-body">
+                    <p class="fw-semibold fs-6 text-center"> You have choosen {{plan.plan_name}} plan</p>    
+                </div>
+                </div>
+                   
+            
+
+        </div>
+
+        <div class="col-md-6 px-5 bg-dark" >
+            <h4 class="text-white text-center p-2">Order Summary</h4>
+            {% comment %} <div class="subtitle">Choose a payment mode!</div> {% endcomment %}
+
+            <table class="table">
+                <tr class="fs-5">
+                    <th>Plan Name</th>
+                    <th>Price</th>
+                </tr>
+                <tr>
+                    <td class="fst-italic">{{plan.plan_name}}</td>
+                    <td>{{plan.price}}</td>
+                </tr>
+                <tr class="fs-5">
+                    <td>Total</td>
+                    <td>{{plan.price}}</td>
+                </tr>
+            </table>
+            {% comment %} <form class="form" method="POST" action="{% url 'payment' %}" style="width: 26rem;">
+            {% csrf_token %}
+            <input type="hidden" name="plan_id" value="{{plan.id}}">
+            <input type="hidden" name="price" value="{{plan.price}}"> {% endcomment %}
+            <button id="rzp-button1" class="btn btn-outline-warning w-100" value="Pay">Pay Now</button>
+            {% comment %} </form> {% endcomment %}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block extrajs %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "rzp_test_jroVuT44vnKLsF", // Enter the Key ID generated from the Dashboard
+        "amount": "{{payment.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "BulletIN",
+        "description": "Thank You for Buying",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "callback_url": "{% url 'success' %}",
+        "prefill": {
+            "name": "{{user.first_name}}",
+            "email": "{{user.email}}",
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+    }
+    </script>
+{% endblock extrajs %}
