@@ -80,17 +80,18 @@ def order_summary(request):
         print(payment)
         print("******************")
 
-        order_id = payment['id']
-        order_status = payment['status']
-        # if(payment.payment_capture == 1):
-        if order_status == 'created':
-            order = Order(
-                user = user,
-                plan = Plan.objects.get(id = plan_id),
-                price = float(price/100),
-                razor_pay_order_id = order_id
-            )
-            order.save()
+
+        request.session['sub'] = {'plan_id': plan_id, 'price':price}
+        # order_id = payment['id']
+        # order_status = payment['status']
+        # if order_status == 'created':
+        #     order = Order(
+        #         user = user,
+        #         plan = Plan.objects.get(id = plan_id),
+        #         price = float(price/100),
+        #         razor_pay_order_id = order_id
+        #     )
+        #     order.save()
 
         context = {
             "plans" : plans,
@@ -105,23 +106,35 @@ def order_summary(request):
 def success(request):
     if request.method == "POST":
         data = request.POST
-        print(data)
+        # print(data)
+
+        # request.session['sub'] = {'plan_id': plan_id, 'price':price}
+        plan_id = request.session.get('sub')['plan_id']
+        price = request.session.get('sub')['price']
+
+
         client = razorpay.Client(auth= (settings.RAZOR_PAY_KEY_ID , settings.KEY_SECRET))
         status_dict = {'razorpay_order_id': data['razorpay_order_id'],
                        'razorpay_payment_id': data['razorpay_payment_id'],
                        'razorpay_signature': data['razorpay_signature']
         }
-        print(status_dict)
+        # print(status_dict)
         try:
             status = client.utility.verify_payment_signature(status_dict)
-            print(status)
-            order = Order.objects.get(razor_pay_order_id = data['razorpay_order_id'])
-            print(order)
-            order.razor_pay_payment_id =  data['razorpay_payment_id']
-            order.razor_pay_payment_signature = data['razorpay_signature']
-            order.paid = True
-            print(order)
+            # print(status)
+            # order = Order.objects.get(razor_pay_order_id = data['razorpay_order_id'])
+
+            order = Order(
+                user = request.user,
+                plan = Plan.objects.get(id = plan_id),
+                price = float(price/100),
+                razor_pay_order_id = data['razorpay_order_id'],
+                razor_pay_payment_id =  data['razorpay_payment_id'],
+                razor_pay_payment_signature = data['razorpay_signature'],
+                paid = True
+            )
             order.save()
+            print(order)
             return render(request, 'pages_temp/success.html', {'status' : True})
         except:
             return render(request, 'pages_temp/success.html', {'status' : False})
