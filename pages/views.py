@@ -6,9 +6,14 @@ import razorpay
 from django.conf import settings
 from user.models import Order
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string 
+from django.utils.html import strip_tags
+from django.core.mail import send_mail
+
 
 # Create your views here.
 def index(request):
+    '''Sends news data section wise to the index page and renders it'''
     # news1 =  News.objects.filter(news_option = ("CN",)).order_by('?')[:3]
     news1 =  News.objects.filter(news_type = NewsType.objects.get(type = "Carousel News")).order_by('?')[:3]
     news2 = News.objects.filter(news_type = NewsType.objects.get(type = "Breaking News")).order_by('?')[:4]
@@ -38,9 +43,11 @@ def index(request):
     return render(request, 'pages_temp/index.html', context)
 
 def aboutus(request):
+    '''Renders about us page'''
     return render(request, 'pages_temp/about.html')
 
 def search(request):
+    '''Helps in searching news'''
     if request.method == "POST":
         search = request.POST.get("search")
         news = News.objects.filter(Q(headline__icontains = search) | Q(cover_text__icontains = search) | Q(content__icontains = search) )
@@ -51,6 +58,7 @@ def search(request):
     return render(request, 'pages_temp/search.html', context)
 
 def subscribe(request):
+    '''Renders the Subscription page to choose a plan'''
     plans = Plan.objects.all()
     features = PlanFeatures.objects.all()
     context = {
@@ -59,40 +67,23 @@ def subscribe(request):
     }
     return render(request, 'pages_temp/subscribe.html', context)
 
-# def buy_now(request):
-#     if request.method == "POST":
-#         plan_id = request.POST.get("plan_id")
-#     return redirect("order_summary")
 
 @login_required(login_url = "/user/signin")
 def order_summary(request):
+    '''Renders order_summary page and the payment gateway to make payment'''
     if request.method == "POST":
         user = request.user
         plan_id = request.POST.get("plan_id")
         plans = Plan.objects.filter(id = plan_id)
         features = PlanFeatures.objects.all()
         for plan in plans:
-            price = int(plan.price) * 100
+            price = int(plan.price)
          
         client = razorpay.Client(auth= (settings.RAZOR_PAY_KEY_ID , settings.KEY_SECRET))
-        payment = client.order.create({ 'amount': price, 'currency':'INR', 'payment_capture':1 })
-        print("******************")
-        print(payment)
-        print("******************")
-
+        payment = client.order.create({ 'amount': price * 100, 'currency':'INR', 'payment_capture':1 })
+        # print(payment)
 
         request.session['sub'] = {'plan_id': plan_id, 'price':price}
-        # order_id = payment['id']
-        # order_status = payment['status']
-        # if order_status == 'created':
-        #     order = Order(
-        #         user = user,
-        #         plan = Plan.objects.get(id = plan_id),
-        #         price = float(price/100),
-        #         razor_pay_order_id = order_id
-        #     )
-        #     order.save()
-
         context = {
             "plans" : plans,
             "features" : features,
@@ -102,16 +93,15 @@ def order_summary(request):
     
     return render(request,'pages_temp/order_summary.html',context)
 
+@login_required(login_url = "/user/signin")
 @csrf_exempt
 def success(request):
+    '''Receives order_id, payment_id, siganture from order_summary page and renders success page. Also, saves order details in Order table and sends an email to user'''
     if request.method == "POST":
         data = request.POST
-        # print(data)
-
-        # request.session['sub'] = {'plan_id': plan_id, 'price':price}
         plan_id = request.session.get('sub')['plan_id']
         price = request.session.get('sub')['price']
-
+        plan = Plan.objects.get(id = plan_id)
 
         client = razorpay.Client(auth= (settings.RAZOR_PAY_KEY_ID , settings.KEY_SECRET))
         status_dict = {'razorpay_order_id': data['razorpay_order_id'],
@@ -120,51 +110,33 @@ def success(request):
         }
         # print(status_dict)
         try:
-            status = client.utility.verify_payment_signature(status_dict)
-            # print(status)
-            # order = Order.objects.get(razor_pay_order_id = data['razorpay_order_id'])
-
+            status = client.utility.verify_payment_signature(status_dict)       #return True or False
             order = Order(
                 user = request.user,
-                plan = Plan.objects.get(id = plan_id),
-                price = float(price/100),
+                plan = plan,
+                price = float(price),
                 razor_pay_order_id = data['razorpay_order_id'],
                 razor_pay_payment_id =  data['razorpay_payment_id'],
                 razor_pay_payment_signature = data['razorpay_signature'],
                 paid = True
             )
             order.save()
-            print(order)
+
+            #EMAIL
+            mail_context = {
+                "username"  : request.user.first_name+" "+request.user.last_name,
+                "plan" : plan,
+                "price" : price
+            }
+            subject = "Successful Purchase"
+            html_message = render_to_string('user/mail_template.html',mail_context)
+            plain_message = strip_tags(html_message)
+            to = [request.user.email,]
+            from_email = settings.EMAIL_HOST_USER
+            send_mail(subject = subject, message= plain_message, from_email= from_email, recipient_list= to, fail_silently= False, html_message= html_message)
+
             return render(request, 'pages_temp/success.html', {'status' : True})
         except:
             return render(request, 'pages_temp/success.html', {'status' : False})
-    
-
-
-# @login_required(login_url = "/user/signin")
-# def payment(request):
-#     if request.method == "POST":
-#         user = request.user
-#         plan_id = request.POST.get("plan_id")
-#         price = request.POST.get("price")
-#         plans = Plan.objects.filter(id = plan_id)
-        # for plan in plans:
-        #     price = int(plan.price) * 100
-        # client = razorpay.Client(auth= (settings.RAZOR_PAY_KEY_ID , settings.KEY_SECRET))
-        # payment = client.order.create({ 'amount': price, 'currency':'INR', 'payment_capture':1 })
-        # print(payment)
-        # order = Order(
-        #     user = user,
-        #     plan = Plan.objects.get(id = plan_id),
-        #     price = float(price),
-        #     razor_pay_order_id = payments['id']
-        # )
-        # order.save()
-        # context = {
-        #     "plan" : plans,
-        #     "payment" : payment
-        # }
-    # return render(request,'pages_temp/order_summary.html')
-
 
 
