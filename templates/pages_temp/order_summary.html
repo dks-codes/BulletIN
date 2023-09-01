@@ -89,7 +89,7 @@
         "order_id": "{{payment.id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         "callback_url": "{% url 'success' %}",
         "prefill": {
-            "name": "{{user.first_name}}  {{user.last_name}}",
+            "name": "{{user.first_name}} {{user.last_name}}",
             "email": "{{user.email}}",
         },
         "theme": {
