@@ -35,7 +35,7 @@
     {% endfor %} {% endcomment %}
     <div class="col-md-6">
       {% if news1 %}
-      <a href="{% url 'news_details' news1.id %}" target="_blank">
+      <a href="{% url 'news_details' news1.id %}">
         <div class="card">
           <img src="{{news1.cover_photo.url}}" class="card-img-top" alt="Image is here">
           <div class="card-body">

@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from news.models import News, NewsType, Plan, PlanFeatures
+from news.models import News, NewsType, Plan, PlanFeatures, Category
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import razorpay
@@ -15,9 +15,14 @@ from django.core.mail import send_mail
 def index(request):
     '''Sends news data section wise to the index page and renders it'''
     # news1 =  News.objects.filter(news_option = ("CN",)).order_by('?')[:3]
-    news1 =  News.objects.filter(news_type = NewsType.objects.get(type = "Carousel News")).order_by('?')[:3]
+    news1 =  News.objects.filter(news_type = NewsType.objects.get(type = "Home-Top Section-Carousel News")).order_by('?')[:3]
     news2 = News.objects.filter(news_type = NewsType.objects.get(type = "Breaking News")).order_by('?')[:4]
     news3 = News.objects.filter(news_type = NewsType.objects.get(type = "Editors' Pick")).order_by('?')[:4]
+    # main_news4 = News.objects.filter(category = Category.objects.get(category = "Opinion"))[:1]
+    # sub_news4 = News.objects.filter(category = Category.objects.get(category = "Opinion")).exclude(id__in = main_news4.values_list('id'))[:5]
+    main_news4 = News.objects.filter(news_type = NewsType.objects.get(type = "Home-Opinions-Main"))
+    sub_news4 = News.objects.filter(news_type = NewsType.objects.get(type = "Home-Opinions-Sub"))
+
 
     all_news = News.objects.all()
     likes = {}
@@ -26,18 +31,23 @@ def index(request):
     # print(likes)
     most_liked_id = dict(sorted(likes.items(), key= lambda x: x[1], reverse=True))
     # print(most_liked_id)
-    most_liked = News.objects.filter(id__in = most_liked_id)[:4]
+    most_liked = News.objects.filter(id__in = most_liked_id).order_by('id')[:4]
     # print(most_liked)
     # print(most_liked.query)
 
-    # news = News.objects.all()[:4]
+    # news = News.objects.all()[:4] 
     news = News.objects.all().exclude(id__in = news1.values_list('id',flat=True)).order_by('?')[:4]
+    
+    # news_combo = news1 | news2 | news3 | most_liked | main_news4 | sub_news4
+    # news_remaining = News.objects.all().exclude(id__in = news_combo.values_list('id'))
 
     context = {
         "carousel_news" : news1,
         "breaking_news" : news2,
         "editors_pick" : news3,
         "most_liked" : most_liked,
+        "main_opinion" : main_news4,
+        "sub_opinion" : sub_news4,
         "news" : news,
     }
     return render(request, 'pages_temp/index.html', context)
