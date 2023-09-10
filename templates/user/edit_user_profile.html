@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Edit Profile
+{% endblock title %}
+
+{% block internalcss %}
+body{
+    background-color: #d5dbe0;
+}
+{% endblock internalcss %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6  mx-auto my-5">
+            <div class="card h-100 bg-light border-secondary">
+                <h3 class="card-header text-center">Edit Profile</h3>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <label for="username" class="form-label fw-semibold">Username</label>
+                                {{form.username}}
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="first name" class="form-label fw-semibold">First Name</label>
+                                {{form.first_name}}
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="last name" class="form-label fw-semibold">Last Name</label>
+                                {{form.last_name}}
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="email" class="form-label fw-semibold">Email</label>
+                                {{form.email}}
+                            </div>
+                        </div>
+                        {% comment %} {{form.as_p}} {% endcomment %}
+                        <button type="submit" class="btn btn-dark mt-3">Update Profile</button><br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

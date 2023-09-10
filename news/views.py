@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 def all_news(request):
     news = News.objects.all().order_by('?')[:4]
-    categories = Category.objects.all().order_by('category')
+    categories = Category.objects.exclude(category__in = ("Opinion","Photography")).order_by('category')
+    print(categories.query)
     must_see = News.objects.all().order_by('?')[:3]
     most_read = News.objects.all().order_by('?')[:3]
 
@@ -31,7 +32,7 @@ def all_news(request):
 def news_category(request, cid):
     news1 = News.objects.filter(category = cid).order_by('?').first()
     news = News.objects.filter(category = cid).order_by('?')[1:4]
-    categories = Category.objects.all().order_by('category')
+    categories = Category.objects.exclude(category__in = ("Opinion","Photography")).order_by('category')
     each_category = Category.objects.filter(id = cid)
     # must_see = News.objects.all().order_by('?')[:3]
     # most_read = News.objects.all().order_by('?')[:3]

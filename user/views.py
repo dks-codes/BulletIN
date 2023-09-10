@@ -4,6 +4,17 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+#Password Change##
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+from .forms import PasswordChangingForm, EditUserProfileForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+#Password Change#
+
+#Edit Profile#
+from django.views import generic
+#Edit Profile#
 
 def signup(request):
     if request.user.is_authenticated:
@@ -68,3 +79,47 @@ def signout(request):
 @login_required(login_url="/user/signin")
 def profile(request):
     return render(request, 'user/profile.html')
+
+class PasswordChangeView(LoginRequiredMixin,PasswordChangeView):
+    login_url = "/user/signin/"
+    form_class = PasswordChangingForm
+    template_name = "user/change_user_password.html"
+    success_url = reverse_lazy('profile')
+    # success_url = "/user/profile"
+
+    # def get_queryset(self):
+    #     if PasswordChangingForm.old_password != self.request.user.password:
+    #         messages.error(self.request, "Old password is incorrect")
+    #         return render('user/password_change.html',)
+
+                  
+# from django.contrib.auth import update_session_auth_hash
+# from django.contrib.auth.forms import PasswordChangeForm
+# @login_required(login_url="/user/signin")
+# def change_password(request):
+#     if request.method == 'POST':
+#         fm= PasswordChangingForm(user = request.user, data = request.POST)
+#         if fm.is_valid():
+#             fm.save()
+#             update_session_auth_hash(request, fm.user)  # Important!
+#             messages.success(request, 'Password Changed Successfully!')
+#             return redirect('profile')
+#         else:
+#             # messages.error(request, 'Please correct the error below.')
+#             return render(request, 'user/password_change.html', {'form': fm})
+#     else:
+#         fm = PasswordChangingForm(request.user)
+#     return render(request, 'user/password_change.html', {'form': fm})
+    
+
+def password_success(request):
+    return render(request, 'user/password_change_success.html')
+
+
+class EditUserProfile(generic.UpdateView):
+    form_class = EditUserProfileForm
+    template_name = "user/edit_user_profile.html"
+    success_url = reverse_lazy('profile')
+
+    def get_object(self):
+        return self.request.user

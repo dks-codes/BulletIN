@@ -4,16 +4,29 @@
 || Profile
 {% endblock title %}
 
+{% block internalcss %}
+body{
+    background-color: #d5dbe0;
+}
+{% endblock internalcss %}
+
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-6  mx-auto my-5">
-            <div class="card bg-light h-100">
+            <div class="card h-100 bg-light border-secondary mb-3">
+                <h3 class="card-header text-center">Account Details</h3>
+                {% comment %} <h3 class="card-title text-center">Account Details</h3> {% endcomment %}
                 <div class="card-body">
-                    <p><span class="fs-6 fw-bold">Name: </span>{{user.first_name}} {{user.last_name}}</p>
-                    <p><span class="fs-6 fw-bold">Username: </span>{{user.username}}</p>
-                    <p><span class="fs-6 fw-bold">Email: </span>{{user.email}}</p>
-                    <p><span class="fs-6 fw-bold">Password: </span>*****</p>
+                    <p><span class="fs-5 fw-bold">Name: </span><i class="fs-5">{{user.first_name}} {{user.last_name}}</i></p>
+                    <p><span class="fs-5 fw-bold">Username: </span><i class="fs-5">{{user.username}}</i></p>
+                    <p><span class="fs-5 fw-bold">Email: </span><i class="fs-5">{{user.email}}</i></p>
+                    {% comment %} <p><span class="fs-6 fw-bold">Password: </span>*****</p> {% endcomment %}
+                    <div class="hstack gap-3 justify-content-center">
+                        <a href="{% url 'change-password' %}" class="btn btn-primary"><i class="fa-solid fa-lock me-1"></i>Change Password</a>
+                        <a href="{% url 'edit-profile' %}" class="btn btn-info"><i class="fa-solid fa-user-pen me-1"></i>Edit Profile</a>
+                        <a href="" class="btn btn-danger"><i class="fa-solid fa-user-slash me-1"></i>Delete Account</a>
+                    </div>
                 </div>
             </div>
         </div>

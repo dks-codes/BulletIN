@@ -8,6 +8,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav mx-auto">
             {% for c in categories  %}
+            {% comment %} {% if c.category == "Opinion" continue%} {% endcomment %}
+            
             
             <a class="nav-link active me-4 text-white link-offset-3 link-underline-opacity-0 link-underline-opacity-100-hover" 
             aria-current="page" 
@@ -20,7 +22,7 @@
               {{i=i+1}}
             {% endif %} {% endcomment %}
              
-
+            {% comment %} {% endif %} {% endcomment %}
             {% endfor %}
             
           </div>
