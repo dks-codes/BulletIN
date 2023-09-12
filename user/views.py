@@ -12,9 +12,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 #Password Change#
 
-#Edit Profile#
+#Edit/Delete Profile#
 from django.views import generic
-#Edit Profile#
+#Edit/Delete Profile#
+
 
 def signup(request):
     if request.user.is_authenticated:
@@ -80,12 +81,13 @@ def signout(request):
 def profile(request):
     return render(request, 'user/profile.html')
 
-class PasswordChangeView(LoginRequiredMixin,PasswordChangeView):
+class PasswordChangeView(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
     login_url = "/user/signin/"
     form_class = PasswordChangingForm
     template_name = "user/change_user_password.html"
     success_url = reverse_lazy('profile')
     # success_url = "/user/profile"
+    success_message = "Password changed successfully"
 
     # def get_queryset(self):
     #     if PasswordChangingForm.old_password != self.request.user.password:
@@ -116,10 +118,28 @@ def password_success(request):
     return render(request, 'user/password_change_success.html')
 
 
-class EditUserProfile(generic.UpdateView):
+class EditUserProfile(SuccessMessageMixin,LoginRequiredMixin,generic.UpdateView):
+    login_url = "/user/signin/"
     form_class = EditUserProfileForm
     template_name = "user/edit_user_profile.html"
     success_url = reverse_lazy('profile')
+    success_message = "Profile Updated Successfully!"
 
+    #Prefill details in form
     def get_object(self):
         return self.request.user
+    
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, "Please submit the form carefully!")
+        return redirect('profile')
+
+class DeleteUserProfile(SuccessMessageMixin,LoginRequiredMixin, generic.DeleteView):
+    login_url = "/user/signin/"
+    model = User
+    template_name = "user/delete_user_profile.html"
+    success_url = reverse_lazy('index')
+    success_message = "User has been deleted successfully!"
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, "Please submit the form carefully!")
+        return redirect('profile')

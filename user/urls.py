@@ -10,5 +10,6 @@ urlpatterns = [
     path("change_password/",views.PasswordChangeView.as_view(), name="change-password"),
     # path("change_password/", views.change_password, name='change-password'),
     path("edit_profile/",views.EditUserProfile.as_view(), name="edit-profile"),
+    path("delete_profile/<int:pk>/",views.DeleteUserProfile.as_view(), name="delete-profile"),
 
 ]

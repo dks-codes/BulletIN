@@ -25,9 +25,14 @@ body{
                     <div class="hstack gap-3 justify-content-center">
                         <a href="{% url 'change-password' %}" class="btn btn-primary"><i class="fa-solid fa-lock me-1"></i>Change Password</a>
                         <a href="{% url 'edit-profile' %}" class="btn btn-info"><i class="fa-solid fa-user-pen me-1"></i>Edit Profile</a>
-                        <a href="" class="btn btn-danger"><i class="fa-solid fa-user-slash me-1"></i>Delete Account</a>
+                        <a href="{% url 'delete-profile' user.id %}" class="btn btn-danger"><i class="fa-solid fa-user-slash me-1"></i>Delete Account</a>
                     </div>
                 </div>
+            </div>
+            <div class="bg-success rounded">
+                {% for message in messages  %}
+                    <p class="text-light text-center p-2">{{message}}</p>
+                {% endfor %}
             </div>
         </div>
     </div>

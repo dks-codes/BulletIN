@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+|| Delete Profile
+{% endblock title %}
+
+{% block internalcss %}
+body{
+    background-color: #d5dbe0;
+}
+{% endblock internalcss %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6  mx-auto my-5">
+            <div class="card h-100 bg-light border-secondary">
+                <h3 class="card-header text-center">Delete Profile</h3>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <h5>Are you sure you want to delete your account ?</h5>
+                        {% comment %} {{form.as_p}} {% endcomment %}
+                        <button type="submit" class="btn btn-danger mt-3">Delete Account</button><br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
