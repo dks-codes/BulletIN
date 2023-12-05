@@ -21,7 +21,8 @@ body{
                         {% csrf_token %}
                         <h5>Are you sure you want to delete your account ?</h5>
                         {% comment %} {{form.as_p}} {% endcomment %}
-                        <button type="submit" class="btn btn-danger mt-3">Delete Account</button><br><br>
+                        <button type="submit" class="btn btn-danger mt-3">Delete Account</button>
+                        <a href="{% url "profile" %}" class="btn btn-outline-danger mt-3">Cancel</a>
                     </form>
                 </div>
             </div>

@@ -38,7 +38,8 @@ body{
                             </div>
                         </div>
                         {% comment %} {{form.as_p}} {% endcomment %}
-                        <button type="submit" class="btn btn-dark mt-3">Update Profile</button><br><br>
+                        <button type="submit" class="btn btn-dark mt-3">Update Profile</button>
+                        <a href="{% url "profile" %}" class="btn btn-outline-danger mt-3">Cancel</a>
                     </form>
                 </div>
             </div>

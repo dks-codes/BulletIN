@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+
 #Password Change##
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
@@ -81,13 +83,18 @@ def signout(request):
 def profile(request):
     return render(request, 'user/profile.html')
 
+@method_decorator(never_cache, name="dispatch")
 class PasswordChangeView(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeView):
     login_url = "/user/signin/"
     form_class = PasswordChangingForm
     template_name = "user/change_user_password.html"
     success_url = reverse_lazy('profile')
     # success_url = "/user/profile"
-    success_message = "Password changed successfully"
+    success_message = "Password changed successfully !"
+
+    # def form_invalid(self, form):
+    #     messages.add_message(self.request, messages.ERROR, "Please submit the form carefully!")
+    #     return redirect('change-password')
 
     # def get_queryset(self):
     #     if PasswordChangingForm.old_password != self.request.user.password:
@@ -114,16 +121,16 @@ class PasswordChangeView(SuccessMessageMixin,LoginRequiredMixin,PasswordChangeVi
 #     return render(request, 'user/password_change.html', {'form': fm})
     
 
-def password_success(request):
-    return render(request, 'user/password_change_success.html')
+# def password_success(request):
+#     return render(request, 'user/password_change_success.html')
 
-
+@method_decorator(never_cache, name="dispatch")
 class EditUserProfile(SuccessMessageMixin,LoginRequiredMixin,generic.UpdateView):
     login_url = "/user/signin/"
     form_class = EditUserProfileForm
     template_name = "user/edit_user_profile.html"
     success_url = reverse_lazy('profile')
-    success_message = "Profile Updated Successfully!"
+    success_message = "Profile Updated Successfully !"
 
     #Prefill details in form
     def get_object(self):
@@ -133,12 +140,13 @@ class EditUserProfile(SuccessMessageMixin,LoginRequiredMixin,generic.UpdateView)
         messages.add_message(self.request, messages.ERROR, "Please submit the form carefully!")
         return redirect('profile')
 
+@method_decorator(never_cache, name="dispatch")
 class DeleteUserProfile(SuccessMessageMixin,LoginRequiredMixin, generic.DeleteView):
     login_url = "/user/signin/"
     model = User
     template_name = "user/delete_user_profile.html"
-    success_url = reverse_lazy('index')
-    success_message = "User has been deleted successfully!"
+    success_url = reverse_lazy('sign_up')
+    success_message = "Account has been deleted successfully !"
 
     def form_invalid(self, form):
         messages.add_message(self.request, messages.ERROR, "Please submit the form carefully!")
